@@ -7,7 +7,7 @@ primarily targeting at a cross-platform implementation for on-device inference.
 
 ### Highlights:
 - Similar to `llama2.c` with openmp, `llama2.rs` also utilizes model parallelization.
-- Utilize memory map for save runtime memory (with a flag `--is_mmap`).
+- Utilize memory mapping for runtime memory reduction (with a flag `--is_mmap`).
 
 ### How to build and run inference.
 
@@ -45,7 +45,7 @@ cargo run --release -- --model_path=./stories110M.bin --is_benchmark
 We conduct the inference benchmark on `stories110M.bin`, 
 and compare with [llama2.c](https://huggingface.co/karpathy/llama2.c) and Huggingface's [candle](https://github.com/huggingface/candle) library.
 
-The performance is based on 10 repeated experiments on my Macbook, 
+The performance is based on 10 repeated experiments on my MacBook, 
 and calculate the mean of standard deviation. Here is my spec:
 
 - 2.6 GHz 6-Core Intel Core i7, L2/L3 Cache: 256 KB/12 MB.
@@ -63,7 +63,7 @@ and calculate the mean of standard deviation. Here is my spec:
 | candle            |  12.534 (±0.417)           |
 
 *Notes:*
-- mmap: Run with flag `--is_mmap`. Peak memory cost reduction: 480MB -> 59MB.
+- llama2.rs (mmap): Run with flag `--is_mmap`. Peak memory cost reduction: 480MB -> 59MB, save up to 88%.
 
 - [llama2.c](https://huggingface.co/karpathy/llama2.c) is built and run with opts openmp+fast:
 
@@ -71,7 +71,7 @@ and calculate the mean of standard deviation. Here is my spec:
 clang -Ofast -fopenmp -march=native run.c -lm -o run
 ./run stories110M.bin
 ```
-  (You may need LLVM and openmp to be installed.)
+  (You may need LLVM and openmp to be installed. MacOS users try [examples](https://stackoverflow.com/questions/35134681/installing-openmp-on-mac-os-x-10-11) - Good luck!)
 
 - [candle](https://github.com/huggingface/candle) is built with `accelerate` feature
   (to be fair compared regardless of specific hardware accelerators):
