@@ -77,7 +77,7 @@ clang -Ofast -fopenmp -march=native run.c -lm -o run
   (to be fair compared regardless of specific hardware accelerators):
 
 ```bash
-cargo run --release --features accelerate --package candle-examples inference --which-model=stories110M.bin
+cargo run --release --features accelerate --example llama2-c inference --which-model=stories110M.bin
 ```
 
 Disclaimer: Performance may vary based on test machines and conditions (e.g., clean machine, other workload, cpu temperature).
