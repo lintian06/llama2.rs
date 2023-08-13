@@ -1,4 +1,86 @@
-## llama2.c
+## llama2.rs
+
+A Rust port of [llama2.c](https://huggingface.co/karpathy/llama2.c).
+
+The goal of `llama2.rs` is to create a rust port for llama2.c,
+primarily targeting at a cross-platform implementation for on-device inference.
+
+Features to highlight:
+- Similar to `llama2.c` with openmp, `llama2.rs` also utilizes model parallelization.
+- Utilize memory map for save runtime memory (with a flag `--is_mmap`).
+
+### How to build and run inference.
+
+**Prerequisite**: Download pretrained tinyllamas models.
+
+```bash
+# stories15M is used for test and stories 110M is used for benchmark.
+wget https://huggingface.co/karpathy/tinyllamas/resolve/main/stories15M.bin
+wget https://huggingface.co/karpathy/tinyllamas/resolve/main/stories42M.bin
+wget https://huggingface.co/karpathy/tinyllamas/resolve/main/stories110M.bin
+```
+
+You can use `cargo` to build and run inference for `stories15M` model:
+
+```bash
+cargo run --release -- --model_path=./stories15M.bin
+```
+
+See `cargo run --release -- --help` for the full help doc.
+
+You can run unit test with the below command with `stories15M.bin` downloaded in advance.
+
+```bash
+cargo test
+```
+
+The command to run bechmark with `stories110M.bin` is:
+
+```bash
+cargo run --release -- --model_path=./stories110M.bin --is_benchmark
+```
+
+### Performance comparison.
+
+We conduct the inference benchmark on `stories110M.bin`, 
+and comparing with llama2.c and Huggingface's [candle](https://github.com/huggingface/candle) library.
+
+The performance is based on 10 repeated experiments on my Macbook, 
+and calculate the mean of standard deviation. Here is my spec:
+
+- 2.6 GHz 6-Core Intel Core i7, L2/L3 Cache: 256 KB/12 MB.
+- Memery: 16 GB 2667 MHz DDR4. Disk: APPLE SSD.
+- OS: Mac OS 13.5.
+- CC: Apple clang version 14.0.0.
+- Rust: rustc 1.71.1.
+
+|-------------------|-----------------------------|
+| Experiments       | #Token/s: mean (+- std)     |
+|-------------------|-----------------------------|
+| llama2.rs         |  40.228 (+-1.691)           |
+| llama2.rs (mmap)  |  37.736 (+-1.864)           |
+| llama2.c          |  27.585 (+-2.003)           |
+| candle            |  12.534 (+-0.417)           |
+|-------------------|-----------------------------|
+
+Notes:
+- mmap: Run with flag `--is_mmap`. Peak memory cost: 480MB -> 9MB.
+
+- [llama2.c](https://huggingface.co/karpathy/llama2.c) is built and run with opts openmp+fast:
+
+```bash
+clang -Ofast -fopenmp -march=native run.c -lm -o run
+./run stories110M.bin
+```
+  (You may need LLVM and openmp to be installed.)
+
+- [candle](https://github.com/huggingface/candle) is built with `accelerate` feature:
+  
+```bash
+cargo run --release --features accelerate --package candle-examples inference --which-model=stories110M.bin
+```
+
+## README.md of original [llama2.c](https://github.com/karpathy/llama2.c)
 
 <p align="center">
   <img src="assets/llama_cute.jpg" width="300" height="300" alt="Cute Llama">

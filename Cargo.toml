@@ -1,0 +1,2 @@
+[workspace]
+members = ["llama2_rs"]
