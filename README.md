@@ -63,7 +63,7 @@ and calculate the mean of standard deviation. Here is my spec:
 | candle            |  12.534 (±0.417)           |
 
 *Notes:*
-- mmap: Run with flag `--is_mmap`. Peak memory cost: 480MB -> 9MB.
+- mmap: Run with flag `--is_mmap`. Peak memory cost reduction: 480MB -> 59MB.
 
 - [llama2.c](https://huggingface.co/karpathy/llama2.c) is built and run with opts openmp+fast:
 
