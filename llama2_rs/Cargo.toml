@@ -2,7 +2,7 @@
 name = "llama2_rs"
 version = "0.1.0"
 edition = "2021"
-author = "Tian Lin <lintian06@gmail.com>"
+authors = ["Tian Lin <lintian06@gmail.com>"]
 
 [dependencies]
 memmap2 = "0.7.1"
