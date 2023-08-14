@@ -6,8 +6,8 @@ My goal of `llama2.rs` is to create a rust port for llama2.c,
 primarily targeting at a cross-platform implementation for on-device inference.
 
 ### Highlights:
-- Similar to `llama2.c` with openmp, `llama2.rs` also utilizes model parallelization.
-- Utilize memory mapping for runtime memory reduction (with a flag `--is_mmap`).
+- Similar to `llama2.c` with openmp, `llama2.rs` also utilizes model parallelization. (*Benchmark: 27 -> 40, performance gain +46%*)
+- Utilize memory mapping for runtime memory reduction (with a flag `--is_mmap`). (*480MB -> 59MB, save up to 88% memory*)
 
 ### How to build and run inference.
 
