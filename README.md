@@ -11,7 +11,7 @@ My goal of `llama2.rs` is to create a rust port for llama2.c,
 primarily targeting at a cross-platform implementation for on-device inference.
 
 ### Highlights:
-- Similar to `llama2.c` with openmp, `llama2.rs` also utilizes model parallelization. (*Benchmark: 27 -> 40, performance gain +46%*)
+- Similar to `llama2.c` with openmp, `llama2.rs` also utilizes model parallelization. (*[Benchmark](https://github.com/lintian06/llama2.rs#performance-comparison): 27.6 -> 40.2 tokens/s on `stories110M.bin`, +46% speedup over llama2.c*)
 - Utilize memory mapping for runtime memory reduction (with a flag `--is_mmap`). (*480MB -> 59MB, save up to 88% memory*)
 
 ### How to build and run inference.
@@ -33,7 +33,7 @@ cargo run --release -- --model_path=./stories15M.bin
 
 See `cargo run --release -- --help` for the full help doc.
 
-You can run unit test with the below command with `stories15M.bin` downloaded in advance.
+You can run unit test with the below command and `stories15M.bin` downloaded in advance.
 
 ```bash
 cargo test
@@ -58,7 +58,6 @@ and calculate the mean of standard deviation. Here is my spec:
 - OS: Mac OS 13.5.
 - CC: Apple clang version 14.0.0.
 - Rust: rustc 1.71.1.
-
 
 | Experiments       | #Token/s: mean (± std)     |
 |-------------------|----------------------------|
