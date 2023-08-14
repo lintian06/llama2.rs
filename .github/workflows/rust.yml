@@ -1,4 +1,4 @@
-name: Rust
+name: "Continuous Integration: Rust"
 
 on:
   push:
@@ -16,7 +16,9 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build
       run: cargo build --verbose
-    - name: Get Model and Run tests
-      run: |
-        wget https://huggingface.co/karpathy/tinyllamas/resolve/main/stories15M.bin
-        cargo test --verbose
+    - name: Wget models
+      uses: wei/wget@v1
+      with:
+        args: -O stories15M.bin https://huggingface.co/karpathy/tinyllamas/resolve/main/stories15M.bin
+    - name: Run tests
+      run: cargo test --verbose
