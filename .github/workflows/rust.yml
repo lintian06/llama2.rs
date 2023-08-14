@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build
       run: cargo build --verbose
-    - name: Run tests
+    - name: Get Model and Run tests
       run: |
         wget https://huggingface.co/karpathy/tinyllamas/resolve/main/stories15M.bin
         cargo test --verbose
