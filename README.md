@@ -1,4 +1,9 @@
 ## llama2.rs
+<p align="center">
+    <a href="https://github.com/lintian06/llama2.rs/actions/workflows/rust.yml" alt="Integration Test">
+        <img src="https://github.com/lintian06/llama2.rs/actions/workflows/rust.yml/badge.svg" alt="Rust"/>
+    </a>
+</p>
 
 A Rust port of [llama2.c](https://huggingface.co/karpathy/llama2.c).
 
